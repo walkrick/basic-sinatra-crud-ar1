@@ -6,6 +6,7 @@ feature "homepage" do
 
     expect(page).to have_link("Register")
   end
+end
 
   feature "register" do
     scenario "should have registration form, and then be able to login" do
@@ -15,4 +16,4 @@ feature "homepage" do
     end
   end
 
-end
+

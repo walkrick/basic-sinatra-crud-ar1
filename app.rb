@@ -36,13 +36,13 @@ class App < Sinatra::Application
 
   post "/register" do
     flash[:notice] = "Thank you for registering"
-    @database_connection.insert({username: params[:username], password: params[:password]})
+    @database_connection.sql("INSERT INTO users (username, password) VALUES ('#{params[:username]}','#{params[:password]}')")
     redirect "/"
   end
 
   post "/" do
 
-      session.delete(:user_id)
+      session.sql(:user_id)
       redirect "/"
   end
 
