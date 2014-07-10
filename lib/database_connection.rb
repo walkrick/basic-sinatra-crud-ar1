@@ -9,7 +9,6 @@ class DatabaseConnection
   end
 
   def self.clear!
-    ActiveRecord::Base.remove_connection
     @@_connection and @@_connection.close
     @@_connection = nil
   end
