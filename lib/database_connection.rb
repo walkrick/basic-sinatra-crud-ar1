@@ -9,6 +9,8 @@ class DatabaseConnection
   end
 
   def self.clear!
+    ActiveRecord::Base.remove_connection
+    @@_connection and @@_connection.close
     @@_connection = nil
   end
 
@@ -23,7 +25,11 @@ class DatabaseConnection
   end
 
   def sql(sql_string)
-    connection.execute(sql_string).to_a
+    connection.exec(sql_string).to_a
+  end
+
+  def close
+    connection.close
   end
 
   private_class_method :new
@@ -35,10 +41,10 @@ class DatabaseConnection
       :database => config['database'],
       :username => config['username'],
       :password => config['password']
-    ).connection
+    ).connection.raw_connection
   end
 
   def establish_from_uri(uri)
-    ActiveRecord::Base.establish_connection(uri).connection
+    ActiveRecord::Base.establish_connection(uri).connection.raw_connection
   end
 end
