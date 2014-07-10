@@ -1,6 +1,6 @@
 describe DatabaseConnection do
 
-  let(:database_connection) { DatabaseConnection.new("test") }
+  let(:database_connection) { DatabaseConnection.establish("test") }
 
   before do
     database_connection.sql("BEGIN")

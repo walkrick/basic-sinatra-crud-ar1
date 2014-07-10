@@ -2,8 +2,11 @@ require "yaml"
 require "active_record"
 
 class DatabaseConnection
-
   attr_reader :config, :connection
+
+  def self.establish(environment)
+    @@_connection ||= new(environment)
+  end
 
   def initialize(environment = "development")
     @config = YAML.load(File.read("config/database.yml"))[environment]
@@ -14,6 +17,7 @@ class DatabaseConnection
     connection.execute(sql_string).to_a
   end
 
+  private_class_method :new
   private
 
   def establish_connection
