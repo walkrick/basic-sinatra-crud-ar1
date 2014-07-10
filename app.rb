@@ -22,15 +22,21 @@ class App < Sinatra::Application
   end
 
   get "/login" do
-    @user = @database_connection.find(session[:user_id])[:username]
+    @user = @database_connection.sql("select username from users where id = #{session[:user_id]}").first
     erb :login, :locals => {:user => @user}
   end
 
-  post "/login" do
-    user = find_user
-    redirect "/error" if user == nil
+  get "/logout" do
+    redirect "/"
+  end
 
-    session[:user_id] = user[:id]
+
+
+
+
+  post "/login" do
+    user = @database_connection.sql("select * from users where username = '#{params[:username]}' and password = '#{params[:password]}'").first
+    session[:user_id] = user["id"]
     redirect "/login"
   end
 
@@ -40,14 +46,11 @@ class App < Sinatra::Application
     redirect "/"
   end
 
-  post "/" do
 
-      session.sql(:user_id)
-      redirect "/"
-  end
+  private
 
-  def find_user
-      @database_connection.all.select { |x| x[:username] == params[:username] && x[:password] == params[:password] }[0]
+  def find_user(params)
+    @database_connection.all.select { |x| x[:username] == params[:username] && x[:password] == params[:password] }[0]
   end
 
 

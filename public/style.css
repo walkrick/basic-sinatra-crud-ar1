@@ -1,0 +1,30 @@
+.wrapper {
+    width: 300px;
+    margin: auto;
+}
+
+div {
+    width: 300px;
+    text-align: center;
+}
+
+button {
+    margin: auto;
+    width: 300px;y
+    height: 30px;
+    font-size: 20px;
+}
+
+input {
+    width: 300px;
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+h3 {
+    text-align: center;
+}
