@@ -1,12 +1,18 @@
 require "active_record"
 require "yaml"
 
-include ActiveRecord::Tasks
+def env
+  ENV["RACK_ENV"] || "development"
+end
 
-DatabaseTasks.database_configuration = YAML.load_file("config/database.yml")
-DatabaseTasks.env = ENV["RACK_ENV"] || "development"
+def establish_database_tasks
+  include ActiveRecord::Tasks
 
-ActiveRecord::Base.configurations = DatabaseTasks.database_configuration
+  DatabaseTasks.database_configuration = YAML.load_file("config/database.yml")
+  DatabaseTasks.env = env
+
+  ActiveRecord::Base.configurations = DatabaseTasks.database_configuration
+end
 
 def db_dir
   File.expand_path(
@@ -17,23 +23,25 @@ end
 namespace :db do
   desc "Create the database for the current environment"
   task :create do
+    establish_database_tasks
     DatabaseTasks.create_current
   end
 
   desc "Drop the database for the current environment"
   task :drop do
+    establish_database_tasks
     DatabaseTasks.drop_current
   end
 
   desc "Migrate the database for the current environment"
   task :migrate do
-    DatabaseConnection.establish(DatabaseTasks.env)
+    DatabaseConnection.establish(env)
     ActiveRecord::Migrator.migrate(db_dir)
   end
 
   desc "Rollback the database for the current environment"
   task :rollback do
-    DatabaseConnection.establish(DatabaseTasks.env)
+    DatabaseConnection.establish(env)
     ActiveRecord::Migrator.rollback(db_dir)
   end
 

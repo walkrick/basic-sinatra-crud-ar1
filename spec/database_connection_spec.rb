@@ -3,7 +3,7 @@ describe DatabaseConnection do
     DatabaseConnection.clear!
   end
 
-  describe "with a DATABASE_URL and no database.yml " do
+  describe "with a DATABASE_URL" do
     it "establishes a connection based on the DATABASE_URL" do
       test_config = YAML.load(File.read("config/database.yml"))["test"]
 

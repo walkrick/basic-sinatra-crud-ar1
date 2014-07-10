@@ -13,12 +13,12 @@ class DatabaseConnection
   end
 
   def initialize(environment, config_file_path)
-    begin
+    if ENV["DATABASE_URL"]
+      @connection = establish_from_uri(ENV["DATABASE_URL"])
+    else
       file = File.read(config_file_path)
       config = YAML.load(file)[environment]
       @connection = establish_from_config(config)
-    rescue Errno::ENOENT
-      @connection = establish_from_uri(ENV["DATABASE_URL"])
     end
   end
 
