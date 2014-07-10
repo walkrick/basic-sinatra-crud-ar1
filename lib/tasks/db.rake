@@ -27,13 +27,13 @@ namespace :db do
 
   desc "Migrate the database for the current environment"
   task :migrate do
-    DatabaseConnection.new(DatabaseTasks.env)
+    DatabaseConnection.establish(DatabaseTasks.env)
     ActiveRecord::Migrator.migrate(db_dir)
   end
 
   desc "Rollback the database for the current environment"
   task :rollback do
-    DatabaseConnection.new(DatabaseTasks.env)
+    DatabaseConnection.establish(DatabaseTasks.env)
     ActiveRecord::Migrator.rollback(db_dir)
   end
 
