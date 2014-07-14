@@ -9,7 +9,17 @@
 
 <h1>OR</h1>
 
+
+<h3>Login Below:</h3>
+
+
+<% if flash[:error] %>
+  <p class="flash"><%= flash[:error] %></p>
+<% end %>
+
+
 <form action="/login" method="post">
+
   <div>
     <label for="username">Username: </label>
     <input type="text" id="username" name="username" />
@@ -25,4 +35,5 @@
   <input type="submit" class="button" value="Login" />
 
 </form>
+
 

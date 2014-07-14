@@ -4,6 +4,11 @@
 
   <h1>Select a username and password:</h1>
 
+
+  <% if flash[:error] %>
+    <p class="flash"><%= flash[:error] %></p>
+  <% end %>
+
   <div>
     <label for="username">Username:</label>
     <input type="text" id="username" name="username"/>
